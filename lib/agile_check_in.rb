@@ -48,7 +48,7 @@ module AgileCheckIn
       puts `git log origin/develop..HEAD`
       puts "*******"
       puts "Shoving..."
-      system("git push origin develop")
+      system("git push")
     else
       puts "Tests failed. Shove aborted."
       exit(1)

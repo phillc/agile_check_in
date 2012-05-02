@@ -6,7 +6,7 @@ module AgileCheckIn
     pair_names = ""
     story_number = ""
 
-    history_file = '.shove_history.yml'
+    history_file = '/tmp/agile_check_in_history.yml'
     if File.exists?(history_file)
       shove_history = YAML::load(File.open(history_file))["shove"]
       pair_names    = shove_history["pair"]

@@ -15,14 +15,14 @@ module AgileCheckIn
     begin
       $stdout.write "Pair names (separated with '/') [#{pair_names}]: "
       input = $stdin.gets.strip
-      pair_names = input unless input.blank?
-    end until !pair_names.blank?
+      pair_names = input unless input.empty?
+    end until !pair_names.empty?
 
     begin
       $stdout.write "Story number [#{story_number}]: "
       input = $stdin.gets.strip
-      story_number = input unless input.blank?
-    end until !story_number.blank?
+      story_number = input unless input.empty?
+    end until !story_number.empty?
 
     File.open(history_file, 'w') do |out|
       YAML.dump({ "shove" => { "pair" => pair_names, "story" => story_number } }, out)

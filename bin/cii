@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'agile_check_in'
+
+AgileCheckIn.incremental
+

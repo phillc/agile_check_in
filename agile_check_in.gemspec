@@ -4,8 +4,8 @@ require File.expand_path('../lib/agile_check_in/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["phillc"]
   gem.email         = ["spyyderz@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Easy check in}
+  gem.summary       = %q{Easy check in}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)

@@ -1,7 +1,7 @@
 require "agile_check_in/version"
 
 module AgileCheckIn
-  def incremental
+  def self.incremental
     pair_names = ""
     story_number = ""
 
@@ -34,7 +34,7 @@ module AgileCheckIn
     system("EDITOR=vim git commit -e -m '#{commit_message}'")
   end
 
-  def push_and_test
+  def self.push_and_test
     puts "*******"
     puts "About to test these changes:"
     puts `git log origin/develop..HEAD`

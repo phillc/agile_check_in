@@ -1,4 +1,5 @@
 require "agile_check_in/version"
+require "yaml"
 
 module AgileCheckIn
   def self.incremental

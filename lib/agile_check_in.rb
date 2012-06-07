@@ -6,7 +6,7 @@ module AgileCheckIn
   def self.incremental
     pair_names = ""
     story_number = ""
-    
+
     if Git.has_local_changes?
       history_file = '/tmp/agile_check_in_history.yml'
       if File.exists?(history_file)
@@ -33,7 +33,7 @@ module AgileCheckIn
 
       commit_message = "[#{pair_names} - ##{story_number}] "
 
-      system("git add -A")
+      system("git add -A") unless Git.has_staged_changes?
       system("EDITOR=vim git commit -e -m '#{commit_message}'")
     else
       puts "No local changes to commit."
@@ -48,7 +48,7 @@ module AgileCheckIn
     puts "*******"
 
 
-    if system("rake spec")
+    if system("rspec spec")
       puts "*******"
       puts "About to push these changes:"
       puts Git.local_commits

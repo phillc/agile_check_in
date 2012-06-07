@@ -7,11 +7,15 @@ module AgileCheckIn
                                           .split("* ")
                                           .last
     end
-    
+
     def self.local_commits
       `git log origin/#{current_branch}..HEAD`
     end
-    
+
+    def self.has_staged_changes?
+      `git status`.match(/Changes to be committed/)
+    end
+
     def self.has_local_changes?
       !`git status`.match(/working directory clean/)
     end

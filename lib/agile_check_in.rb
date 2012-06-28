@@ -22,7 +22,7 @@ module AgileCheckIn
       end until !pair_names.empty?
 
       begin
-        $stdout.write "Story number [#{story_number}]: "
+        $stdout.write "Story number (NA) [#{story_number}]: "
         input = $stdin.gets.strip
         story_number = input unless input.empty?
       end until !story_number.empty?
@@ -31,7 +31,12 @@ module AgileCheckIn
         YAML.dump({ "shove" => { "pair" => pair_names, "story" => story_number } }, out)
       end
 
-      commit_message = "[##{story_number}] "
+      if story_number.delete("/").downcase == "na"
+        commit_message = ""
+      else
+        commit_message = "[##{story_number}] "
+      end
+
       author = "#{pair_names} <agile_check_in@#{`hostname`}>"
 
       system("git add -A") if options[:add]

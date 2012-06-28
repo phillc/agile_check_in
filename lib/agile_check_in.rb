@@ -3,10 +3,10 @@ require "agile_check_in/git"
 require "yaml"
 
 module AgileCheckIn
-  def self.incremental
+  def self.incremental options={}
     pair_names = ""
     story_number = ""
-    
+
     if Git.has_local_changes?
       history_file = '/tmp/agile_check_in_history.yml'
       if File.exists?(history_file)
@@ -33,7 +33,7 @@ module AgileCheckIn
 
       commit_message = "[#{pair_names} - ##{story_number}] "
 
-      system("git add -A")
+      system("git add -A") if options[:add]
       system("EDITOR=vim git commit -e -m '#{commit_message}'")
     else
       puts "No local changes to commit."

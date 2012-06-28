@@ -31,10 +31,11 @@ module AgileCheckIn
         YAML.dump({ "shove" => { "pair" => pair_names, "story" => story_number } }, out)
       end
 
-      commit_message = "[#{pair_names} - ##{story_number}] "
+      commit_message = "[##{story_number}] "
+      author = "#{pair_names} <agile_check_in@#{`hostname`}>"
 
       system("git add -A") if options[:add]
-      system("EDITOR=vim git commit -e -m '#{commit_message}'")
+      system("EDITOR=vim git commit --author='#{author}' -e -m '#{commit_message}'")
     else
       puts "No local changes to commit."
     end

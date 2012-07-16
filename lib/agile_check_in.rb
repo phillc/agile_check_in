@@ -54,7 +54,7 @@ module AgileCheckIn
     puts "*******"
 
 
-    if system("rake spec")
+    if system("rake spec;rspec test")
       puts "*******"
       puts "About to push these changes:"
       puts Git.local_commits

@@ -20,6 +20,12 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+If you would like to run tests before checking in:
+
+* create a ".agile_check_in.yml" file
+* add a "pre_commit:" key with a sting of tasks you would like to run
+    pre_commit: 'rake spec && guard-jasmine'
+
 ## Contributing
 
 1. Fork it

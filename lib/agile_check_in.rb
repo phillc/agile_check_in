@@ -56,25 +56,30 @@ module AgileCheckIn
     end
   end
 
+  def self.push_commits
+    puts "*******"
+    puts "About to push these changes:"
+    puts Git.local_commits
+    puts "*******"
+    puts "Shoving..."
+    system("git push")
+  end
+
   def self.push_and_test
     puts "*******"
     puts "About to test these changes:"
     puts Git.local_commits
     puts "*******"
-
     if pre_commit_tasks
       if system(pre_commit_tasks)
-        puts "*******"
-        puts "About to push these changes:"
-        puts Git.local_commits
-        puts "*******"
-        puts "Shoving..."
-        system("git push")
+        push_commits
       else
         puts "Tests failed. Shove aborted."
         exit(1)
       end
+    else
+      push_commits
     end
-
   end
+
 end

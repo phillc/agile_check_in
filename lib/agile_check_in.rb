@@ -48,10 +48,12 @@ module AgileCheckIn
   end
 
   def self.pre_commit_tasks
-   if File::exists? '.agile_check_in.yml'
-      config_hash = YAML::load(File.read('.agile_check_in.yml'))
+    if File::exists? '.agile_check_in.yml'
+      File.read '.agile_check_in.yml' do |file|
+        config_hash = YAML::load(file)
+      end
       pre_commit_tasks = config_hash["pre_commit"]
-   end
+    end
   end
 
   def self.push_and_test

@@ -66,10 +66,6 @@ module AgileCheckIn
   end
 
   def self.push_and_test
-    puts "*******"
-    puts "About to test these changes:"
-    puts Git.local_commits
-    puts "*******"
     if pre_commit_tasks
       if system(pre_commit_tasks)
         push_commits

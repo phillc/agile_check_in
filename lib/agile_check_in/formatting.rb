@@ -3,7 +3,7 @@ module AgileCheckIn
     DEFAULT_EDITOR='vim'
 
     def self.format_story_prefix(story_number)
-      return "" if story_number.delete("/").downcase == "na"
+      return "" if story_number.empty?
       "[##{story_number}] "
     end
 
@@ -14,8 +14,9 @@ module AgileCheckIn
     def self.format_branch_name(pair_names, story_number, description)
       sanitized_pair_names = pair_names.gsub(/[^a-zA-Z0-9]/, '_')
       sanitized_description = description.gsub(/[^a-zA-Z0-9]/, '_')
+      sanitized_story_number = story_number.empty?? '' : "#{story_number}_"
 
-      "#{sanitized_pair_names}/#{sanitized_description}"
+      "#{sanitized_pair_names}/#{sanitized_story_number}#{sanitized_description}"
     end
   end
 end

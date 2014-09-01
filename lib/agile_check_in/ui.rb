@@ -9,7 +9,10 @@ module AgileCheckIn
     end
 
     def self.story_number(default)
-      ask_with_default('Story number (NA)', default)
+      story_number = ask_with_default('Story number (NA)', default)
+      is_na = story_number.delete("/").downcase.eql?('na')
+
+      is_na ? '' : story_number
     end
 
     def self.ask_with_default(question, current)

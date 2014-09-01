@@ -1,50 +1,38 @@
 require "agile_check_in/version"
+require "agile_check_in/shove"
+require "agile_check_in/ui"
+require "agile_check_in/formatting"
 require "agile_check_in/git"
 require "yaml"
 
 module AgileCheckIn
-  def self.incremental options={}
-    pair_names = ""
-    story_number = ""
+  def self.branch_out
+    pair_names, story_number = *story_details
+    description = UI.details('bug fix')
 
+    Git.branch_out! Formatting.format_branch_name(pair_names, story_number, description)
+  end
+
+  def self.incremental(options={})
     if Git.has_local_changes?
-      history_file = '/tmp/agile_check_in_history.yml'
-      if File.exists?(history_file)
-        shove_history = YAML::load(File.open(history_file))["shove"]
-        pair_names    = shove_history["pair"]
-        story_number  = shove_history["story"]
-      end
+      pair_names, story_number = story_details
 
-      begin
-        $stdout.write "Pair names (separated with '/') [#{pair_names}]: "
-        input = $stdin.gets.strip
-        pair_names = input unless input.empty?
-      end until !pair_names.empty?
-
-      begin
-        $stdout.write "Story number (NA) [#{story_number}]: "
-        input = $stdin.gets.strip
-        story_number = input unless input.empty?
-      end until !story_number.empty?
-
-      File.open(history_file, 'w') do |out|
-        YAML.dump({ "shove" => { "pair" => pair_names, "story" => story_number } }, out)
-      end
-
-      if story_number.delete("/").downcase == "na"
-        commit_message = ""
-      else
-        commit_message = "[##{story_number}] "
-      end
-
-      author = "#{pair_names} <agile_check_in@#{`hostname`}>"
-
-      system("git add -A") if options[:add]
-      system("EDITOR=vim git commit --author='#{author}' -e -m '#{commit_message}'")
+      Git.add_all! if options[:add]
+      Git.commit! Formatting::DEFAULT_EDITOR, Formatting.format_author(pair_names), Formatting.format_story_prefix(story_number)
     else
-      puts "No local changes to commit."
+      puts 'No local changes to commit.'
     end
+  end
 
+  def self.story_details
+    pair_names, story_number = *Shove.load
+
+    pair_names = UI.pair_names(pair_names)
+    story_number = UI.story_number(story_number)
+
+    Shove.dump! pair_names, story_number
+
+    [pair_names || '', story_number || '']
   end
 
   def self.pre_commit_tasks
@@ -55,12 +43,12 @@ module AgileCheckIn
   end
 
   def self.push_commits
-    puts "*******"
-    puts "About to push these changes:"
+    puts '*******'
+    puts 'About to push these changes:'
     puts Git.local_commits
-    puts "*******"
-    puts "Shoving..."
-    system("git push")
+    puts '*******'
+    puts 'Shoving...'
+    Git.push!
   end
 
   def self.push_and_test
@@ -68,12 +56,11 @@ module AgileCheckIn
       if system(pre_commit_tasks)
         push_commits
       else
-        puts "Tests failed. Shove aborted."
+        puts 'Tests failed. Shove aborted.'
         exit(1)
       end
     else
       push_commits
     end
   end
-
 end

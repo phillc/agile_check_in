@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'agile_check_in'
+
+AgileCheckIn.branch_out

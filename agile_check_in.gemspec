@@ -2,8 +2,8 @@
 require File.expand_path('../lib/agile_check_in/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["phillc", "rsliter", "kormie"]
-  gem.email         = ["spyyderz@gmail.com", "rsliter@thoughtworks.com", "kormie@gmail.com"]
+  gem.authors       = ["phillc", "rsliter", "kormie", "xjunior"]
+  gem.email         = ["spyyderz@gmail.com", "rsliter@thoughtworks.com", "kormie@gmail.com", "mr@xjunior.me"]
   gem.description   = %q{Easy check in}
   gem.summary       = %q{Easy check in}
   gem.homepage      = ""
